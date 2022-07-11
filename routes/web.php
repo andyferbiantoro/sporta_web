@@ -33,6 +33,11 @@ Route::group(['middleware' => ['auth', 'admin']],function(){
 
     Route::get('/admin_lapangan', 'AdminController@admin_lapangan')->name('admin_lapangan');
     Route::post('/admin_lapangan_add', 'AdminController@admin_lapangan_add')->name('admin_lapangan_add');
+    Route::post('/admin_foto_lapangan1_add', 'AdminController@admin_foto_lapangan1_add')->name('admin_foto_lapangan1_add');
+    Route::post('/admin_foto_lapangan_delete/{id}', 'AdminController@admin_foto_lapangan_delete')->name('admin_foto_lapangan_delete');
+
+    Route::post('/admin_foto_lapangan2_add', 'AdminController@admin_foto_lapangan2_add')->name('admin_foto_lapangan2_add');
+    Route::post('/admin_foto_lapangan2_delete/{id}', 'AdminController@admin_foto_lapangan2_delete')->name('admin_foto_lapangan2_delete');
 
     Route::get('/admin_pesan_lapangan', 'AdminController@admin_pesan_lapangan')->name('admin_pesan_lapangan');
     Route::post('/admin_pesan_lapangan_add', 'AdminController@admin_pesan_lapangan_add')->name('admin_pesan_lapangan_add');
@@ -46,8 +51,13 @@ Route::group(['middleware' => ['auth', 'admin']],function(){
     Route::get('/admin_detail_laporan{id}', 'AdminController@admin_detail_laporan')->name('admin_detail_laporan');
 
     Route::get('/admin_data_pelanggan', 'AdminController@admin_data_pelanggan')->name('admin_data_pelanggan');
+    Route::get('/admin_detail_pelanggan{id}', 'AdminController@admin_detail_pelanggan')->name('admin_detail_pelanggan');
 
     Route::get('/admin_data_member', 'AdminController@admin_data_member')->name('admin_data_member');
+    Route::post('/admin_data_member_add', 'AdminController@admin_data_member_add')->name('admin_data_member_add');
+
+
+
 }); 
 
 
@@ -61,6 +71,7 @@ Route::group(['middleware' => ['auth', 'pelanggan']],function(){
 
     Route::get('/pelanggan_pesan_lapangan', 'PelangganController@pelanggan_pesan_lapangan')->name('pelanggan_pesan_lapangan');
     Route::post('/pelanggan_pesan_lapangan_add', 'PelangganController@pelanggan_pesan_lapangan_add')->name('pelanggan_pesan_lapangan_add');
+    Route::post('/pelanggan_batalkan_pemesanan/{id}', 'PelangganController@pelanggan_batalkan_pemesanan')->name('pelanggan_batalkan_pemesanan');
 
     Route::get('/pelanggan_pemesanan_pending', 'PelangganController@pelanggan_pemesanan_pending')->name('pelanggan_pemesanan_pending');
     Route::post('/pelanggan_tambah_pembayaran/{id}', 'PelangganController@pelanggan_tambah_pembayaran')->name('pelanggan_tambah_pembayaran');
@@ -68,12 +79,12 @@ Route::group(['middleware' => ['auth', 'pelanggan']],function(){
     Route::get('/pelanggan_pemesanan_dibayar', 'PelangganController@pelanggan_pemesanan_dibayar')->name('pelanggan_pemesanan_dibayar');
 
     Route::get('/pelanggan_riwayat_transaksi', 'PelangganController@pelanggan_riwayat_transaksi')->name('pelanggan_riwayat_transaksi');
-    Route::get('/get_booking_jam', 'PelangganController@get_booking_jam')->name('get_booking_jam');
-    Route::get('/get_id_lapangan', 'PelangganController@get_id_lapangan')->name('get_id_lapangan');
-    Route::get('/get_id_jadwal/{tanggal}', 'PelangganController@get_id_jadwal')->name('get_id_jadwal');
 
 });
 
+    Route::get('/get_booking_jam', 'PelangganController@get_booking_jam')->name('get_booking_jam');
+    Route::get('/get_id_lapangan', 'PelangganController@get_id_lapangan')->name('get_id_lapangan');
+    Route::get('/get_id_jadwal/{tanggal}', 'PelangganController@get_id_jadwal')->name('get_id_jadwal');
 
 
 

@@ -52,7 +52,7 @@ Riwayat Transaksi
                                                         <td>{{date("H:i ", strtotime($data->jam))}} WIB</td>
                                                         <td>{{$data->durasi}} Jam</td>
                                                         <td>{{$data->jenis_pembayaran}}</td>
-                                                        <td>{{$data->nominal_pembayaran}}</td>
+                                                        <td>Rp. <?=number_format($data->nominal_pembayaran, 0, ".", ".")?>,00</td>
                                                         
                                                        
                                                     </tr>

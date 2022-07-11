@@ -27,7 +27,11 @@ class PelangganController extends Controller
 
     public function pelanggan_lapangan(){
 
-        return view('pelanggan.lapangan.index');
+        $lapangan1 = DetailLapangan::where('id_lapangan','2')->get();
+
+        $lapangan2 = DetailLapangan::where('id_lapangan','3')->get();
+
+        return view('pelanggan.lapangan.index',compact('lapangan1','lapangan2'));
     }
 
     public function pelanggan_pesan_lapangan(){
@@ -48,25 +52,43 @@ class PelangganController extends Controller
         $lapangan = Lapangan::all();
         $pelanggan = Pelanggan::all();
     
-        $jadwal_lap1 = DB::table('detail_jadwal')
-        ->join('jadwal', 'detail_jadwal.id_jadwal', '=', 'jadwal.id')
-        ->join('jam', 'detail_jadwal.id_jam', '=', 'jam.id')
-        ->select('jadwal.*','jam.jam')
+        $jadwal_lap1 = DB::table('jadwal')
+        ->select('jadwal.*')
         ->where('id_lapangan','2')
         ->where('tanggal',$now)
         ->where('jadwal.status_jadwal',3)
-        ->orderBy('jam.jam','ASC')
         ->get();
 
-        $jadwal_lap2 = DB::table('detail_jadwal')
-        ->join('jadwal', 'detail_jadwal.id_jadwal', '=', 'jadwal.id')
-        ->join('jam', 'detail_jadwal.id_jam', '=', 'jam.id')
-        ->select('jadwal.*','jam.jam')
+        foreach ($jadwal_lap1 as $key => $value) {
+          $detail_jadwal = DB::table('detail_jadwal')
+          ->join('jam', 'detail_jadwal.id_jam','jam.id')
+          ->select('detail_jadwal.id_jadwal','jam.jam')
+          ->where('id_jadwal',$value->id)
+          ->get();
+
+          $jam1 = collect($detail_jadwal)->implode('jam',' ,');
+          $value->jam1 =$jam1;
+        }
+
+
+
+        $jadwal_lap2 = DB::table('jadwal')
+        ->select('jadwal.*')
         ->where('id_lapangan','3')
         ->where('tanggal',$now)
         ->where('jadwal.status_jadwal',3)
-        ->orderBy('jam.jam','ASC')
         ->get();
+
+        foreach ($jadwal_lap2 as $key => $value) {
+          $detail_jadwal = DB::table('detail_jadwal')
+          ->join('jam', 'detail_jadwal.id_jam','jam.id')
+          ->select('detail_jadwal.id_jadwal','jam.jam')
+          ->where('id_jadwal',$value->id)
+          ->get();
+
+          $jam2 = collect($detail_jadwal)->implode('jam',' ,');
+          $value->jam2 =$jam2;
+        }
 
         return view('pelanggan.pemesanan_lapangan.index',compact('lapangan','jam','pelanggan','jadwal_lap1','jadwal_lap2'));
     }
@@ -200,6 +222,28 @@ class PelangganController extends Controller
         return view('pelanggan.transaksi.pemesanan_pending',compact('pemesanan_pending'));
     }
 
+
+    public function pelanggan_batalkan_pemesanan($id){
+
+        $data_jadwal = Jadwal::where('id_pemesanan',$id)->first();
+
+        $detail_jadwal = DetailJadwal::where('id_jadwal',$data_jadwal->id)->get();
+        foreach ($detail_jadwal as $delete_detail) {
+            $delete_detail->delete();
+        // code...
+        }
+
+        $jadwal_delete = Jadwal::where('id_pemesanan',$id)->first();
+        $jadwal_delete->delete();
+
+        $pemesanan_delete = Pemesanan::where('id',$id)->first();
+        $pemesanan_delete->delete();
+
+        return redirect()->back()->with('success', 'Data Pemesanan Berhasil Dibatalkan');
+    }
+
+
+
      public function pelanggan_tambah_pembayaran(Request $request, $id){
         
 
@@ -255,17 +299,17 @@ class PelangganController extends Controller
 
        // return $pemesanan_dibayar;
 
+
         foreach ($pemesanan_dibayar as $key => $value) {
-            $jam = DB::table("detail_jadwal")
-            ->join('jadwal', 'detail_jadwal.id_jadwal', '=', 'jadwal.id')
-            ->join('jam', 'detail_jadwal.id_jam', '=', 'jam.id')
-            ->where('detail_jadwal.id_jadwal',$value->id_jadwal)
-            ->pluck('jam.jam');
+          $detail_jadwal = DB::table('detail_jadwal')
+          ->join('jam', 'detail_jadwal.id_jam','jam.id')
+          ->where('id_jadwal',$value->id_jadwal)
+          ->select('jam.jam')
+          ->get();
 
-            // $jam = collect($detail_jam)->implode(' ', ', ');
-            $value->jam =$jam;
+          $jam = collect($detail_jadwal)->implode('jam',' WIB, ');
+          $value->jam =$jam;
         }
-
 
         
             //return $pemesanan_dibayar;

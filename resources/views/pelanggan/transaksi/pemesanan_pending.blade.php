@@ -43,7 +43,7 @@ Menunggu Pembayaran
                         <th>Nama Tim</th>
                         <th>Tanggal</th>
                         <th>Lapangan</th>
-                        
+                          
                         <th>Jenis Pembayaran</th>
                         <th>Nominal Pembayaran</th>
                         <th>Nominal DP</th>
@@ -222,7 +222,46 @@ Menunggu Pembayaran
 
 
 
+
+<div id="DeleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog ">
+        <!-- Modal content-->
+        <form action="" id="deleteForm" method="post">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Batalkan Pemesanan ini?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ csrf_field() }}
+                    {{ method_field('POST') }}
+                    <p>Apakah anda yakin ingin membatalkan pemesanan ini ?</p>
+                    <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Kembali</button>
+                    <button type="submit" name="" class="btn btn-danger float-right mr-2" data-dismiss="modal" onclick="formSubmit()">Batalkan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
 @section('js')
+<script type="text/javascript">
+      function deleteData(id) {
+        var id = id;
+        var url = '{{route("pelanggan_batalkan_pemesanan", ":id") }}';
+        url = url.replace(':id', id);
+        $("#deleteForm").attr('action', url);
+    }
+
+    function formSubmit() {
+        $("#deleteForm").submit();
+    }
+</script>
 
 <script type="text/javascript">
   

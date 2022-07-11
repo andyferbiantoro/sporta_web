@@ -43,6 +43,9 @@ Data Transaksi Berjalan
                                                     <th>Tanggal</th>
                                                     <th>jam</th>
                                                     <th>Nama Tim</th>
+                                                    <th>Nominal Pembayaran</th>
+                                                    <th>Nominal DP</th>
+                                                    <th>Bukti Pembayaran</th>
                                                     <th>Aksi</th>
                                                 </tr>
                                             </thead>
@@ -53,15 +56,32 @@ Data Transaksi Berjalan
                                                 <tr>
                                                     <td>{{$no++}}</td>
                                                     <td>{{date("j F Y", strtotime($data->tanggal))}}</td>
-                                                    <td>{{date("H:i ", strtotime($data->jam))}} WIB</td>
+                                                    <td>{{$data->jam}}</td>
                                                     <td>{{$data->nama_tim}}</td>
+                                                    <td>Rp. <?=number_format($data->nominal_pembayaran, 0, ".", ".")?>,00</td>
+                                                    @if($data->nominal_dp != null)
+                                                    <td>Rp. <?=number_format($data->nominal_dp, 0, ".", ".")?>,00</td>
+                                                    @endif
+
+                                                    @if($data->nominal_dp == null)
+                                                    <td>Pembayaaran Penuh</td>
+                                                    @endif
+
+                                                    @if($data->bukti_pembayaran == null)
+                                                    <td>Pembayaran Dilakukan Ditempat</td>
+                                                    @endif 
+
+                                                    @if($data->bukti_pembayaran != null)   
+                                                    <td>
+                                                        <img style="border-radius: 0%" height="70" id="ImageTampil" src="{{asset('uploads/bukti_pembayaran/'.$data->bukti_pembayaran)}}"  data-toggle="modal" data-target="#myModal"></img>
+                                                    </td>
+                                                    @endif
                                                     <td> 
                                                         @if($data->status == '2')
                                                         <a href="#" data-toggle="modal" onclick="VerifikasiData({{$data->id}})" data-target="#VerifikasiModal"> <button class=" btn-danger btn-sm " title="Verifikasi">Verifikasi</button></a>
                                                         @endif
                                                         @if($data->status == '3')
                                                         <button class=" btn-success btn-sm ">Sudah Diverifikasi</button>
-
                                                         @endif
 
                                                     </td>

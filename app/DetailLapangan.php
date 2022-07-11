@@ -8,6 +8,6 @@ class DetailLapangan extends Model
 {
     protected $table = "detail_lapangan";
     protected $fillable = [
-        'image','id_lapangan'
+        'image','id_lapangan','indeks'
     ];
 }

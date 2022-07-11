@@ -110,6 +110,13 @@
 
     </script>
 
+     <script>
+        $(document).ready(function() {
+            $('#dataTable2').DataTable();
+        });
+
+    </script>
+
     <script>
         $(window).on('load', function() {
             if (feather) {
@@ -119,6 +126,72 @@
                 });
             }
         })
+    </script>
+
+     <script type="text/javascript">
+                $(document).ready(function() {
+                   
+                    var table = $('#dataTable').DataTable();
+                    
+                    var modal = document.getElementById("myModal");
+
+                    var modalImg = document.getElementById("img01");
+                    var captionText = document.getElementById("caption");
+                    
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            table.on('click', '#ImageTampil', function (){
+
+                $tr = $(this).closest('tr');
+                if ($($tr).hasClass('child')) {
+                    $tr = $tr.prev('.parent');
+                }
+
+                var data = table.row($tr).data();
+                console.log(data);
+
+                modalImg.src = this.src;
+                captionText.innerHTML = data[3];
+
+
+                $('#myModal').modal('show');
+            });
+
+        });
+    </script>
+
+    <script type="text/javascript">
+                $(document).ready(function() {
+                   
+                    var table = $('#dataTable2').DataTable();
+                    
+                    var modal = document.getElementById("myModal2");
+
+                    var modalImg = document.getElementById("img02");
+                    var captionText = document.getElementById("caption");
+                    
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            table.on('click', '#ImageTampil2', function (){
+
+                $tr = $(this).closest('tr');
+                if ($($tr).hasClass('child')) {
+                    $tr = $tr.prev('.parent');
+                }
+
+                var data = table.row($tr).data();
+                console.log(data);
+
+                modalImg.src = this.src;
+                captionText.innerHTML = data[3];
+
+
+                $('#myModal2').modal('show');
+            });
+
+        });
     </script>
 
     @yield('js')

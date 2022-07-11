@@ -56,7 +56,7 @@ Data Pemesanan Lapangan
                                             <tr>
                                                 <td>{{$no++}}</td>
                                                 <td>{{date("j F Y", strtotime($lap1->tanggal))}}</td>
-                                                <td>{{date("H:i ", strtotime($lap1->jam))}} WIB</td>
+                                                <td>{{$lap1->jam1}}</td>
                                                 <td>{{$lap1->nama_tim}}</td>
                                             </tr>
                                             @endforeach
@@ -91,7 +91,7 @@ Data Pemesanan Lapangan
                                             <tr>
                                                 <td>{{$no++}}</td>
                                                 <td>{{date("j F Y", strtotime($lap2->tanggal))}}</td>
-                                                <td>{{date("H:i ", strtotime($lap2->jam))}} WIB</td>
+                                                <td>{{$lap2->jam2}}</td>
                                                 <td>{{$lap2->nama_tim}}</td>
                                             </tr>
                                             @endforeach
@@ -149,7 +149,7 @@ Data Pemesanan Lapangan
 
         <div class="form-group">
           <label for="tanggal">Tanggal</label>
-          <input type="date" class="form-control" id="tanggal" name="tanggal" required="" onchange="PaketFunction()"></input>
+          <input type="date" class="form-control" id="tanggal" name="tanggal" required="" onchange="TanggalFunction()"></input>
       </div>
 
 
@@ -174,9 +174,9 @@ Data Pemesanan Lapangan
             <label>Jam</label>
             <select  type="text" class="form-control" id="id_jam" name="id_jam" required="" onchange="JamFunction()">
                 <option selected disabled> -- Pilih Jam -- </option>
-                @foreach($jam as $data)
+               <!--  @foreach($jam as $data)
                 <option value="{{$data->id}}">{{date("H:i ", strtotime($data->jam))}} WIB</option>
-                @endforeach
+                @endforeach -->
             </select><br>
         </div>
     </div>
@@ -267,26 +267,24 @@ function getTanggalValue(argument) {
 }
 
 //tinggal nunjukin option
-function PaketFunction(){
-    var tanggal = document.getElementById("tanggal").value;
-    fetch("get_id_jadwal/"+ tanggal )
-    .then(response => response.json())
-    .then(data => dataJam = data)
-    .then(() => {
+    function TanggalFunction(){
+        var tanggal = document.getElementById("tanggal").value;
+      fetch("get_id_jadwal/"+ tanggal )
+      .then(response => response.json())
+      .then(data => dataJam = data)
+      .then(() => {
         var jamElement = document.getElementById("id_jam")
-// console.log(Object.keys(dataJam.get_tanggal).length)
-for (var i = 1; i >= Object.keys(dataJam.get_tanggal).length; i++) {
-    var dataku = Object.keys(dataJam.get_tanggal[i]);
-            // console.log("hello")
-            console.log(dataku);
-            // var createJamOption = document.createElement('option')
-            // createJamOption.textContent = dataku.jam;
-            // createJamOption.value = dataku.id;
-            // jamElement.appendChild(createJamOption)
+          
+        for (var i = 0; i <= dataJam.get_tanggal.length-1; i++) {
+            var dataku = dataJam.get_tanggal[i];
+            var createJamOption = document.createElement('option')
+            createJamOption.textContent = dataku.jam;
+            createJamOption.value = dataku.id;
+            jamElement.appendChild(createJamOption)
         }
 
     })
-}
+  }
 
 function DurasiFunction(){
     var durasi = document.getElementById("durasi").value;

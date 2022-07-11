@@ -46,7 +46,7 @@ Data Pemesanan Lapangan
                                                     <tr>
                                                         <td>{{$no++}}</td>
                                                         <td>{{date("j F Y", strtotime($lap1->tanggal))}}</td>
-                                                        <td>{{date("H:i ", strtotime($lap1->jam))}} WIB</td>
+                                                        <td>{{$lap1->jam1}}</td>
                                                         <td>{{$lap1->nama_tim}}</td>
                                                     </tr>
                                                     @endforeach
@@ -81,7 +81,7 @@ Data Pemesanan Lapangan
                                                     <tr>
                                                         <td>{{$no++}}</td>
                                                         <td>{{date("j F Y", strtotime($lap2->tanggal))}}</td>
-                                                        <td>{{date("H:i ", strtotime($lap2->jam))}} WIB</td>
+                                                        <td>{{$lap2->jam2}}</td>
                                                         <td>{{$lap2->nama_tim}}</td>
                                                     </tr>
                                                     @endforeach
@@ -212,6 +212,8 @@ Data Pemesanan Lapangan
     @endsection
 
     @section('js')
+    
+
 
     <script type="text/javascript">
         

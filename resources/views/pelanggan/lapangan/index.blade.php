@@ -19,20 +19,86 @@ Data Lapangan
                 <section id="dashboard-analytics">
                     <div class="row match-height">
                         <!-- Greetings Card starts -->
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div class="card">
-                                <div class="card-body text-left">
-                                    <button type="button" class="btn btn-success " data-toggle="modal" data-target="#ModalAdd">
-                                      Tambah Lapangan
-                                    </button>
 
-                                    
-                                    <div class="text-center">
-                                        ini lapangan
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                          <div class="card">
+                            <div class="card-body text-left">
+                             <h1>Lapangan 1</h1>
+                              <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                  <div class="text-center">
+                                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                      <div class="carousel-inner">
+                                        @foreach($lapangan1 as $image)
+                                        @if($image->indeks == 1)
+                                        <div class="carousel-item active">
+                                          @else    
+                                          <div class="carousel-item">
+                                            @endif    
+                                            <img class="d-block w-100" style="height: 300px;"  src="{{asset('uploads/image_lapangan/'.$image->image)}}" alt="First slide">
+                                          </div>
+                                          <br>
+                                          @endforeach
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                          <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                          <span class="sr-only">Next</span>
+                                        </a>
+                                      </div>
                                     </div>
+                                  </div>
                                 </div>
+                                <div class="col-lg-2"></div>
+                              </div>
                             </div>
+                          </div>
                         </div>
+                        
+
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                          <div class="card">
+                            <div class="card-body text-left">
+                             <h1>Lapangan 2</h1>
+                              <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                  <div class="text-center">
+                                    <div id="carouselExampleControls2" class="carousel slide" data-ride="carousel">
+                                      <div class="carousel-inner">
+                                        @foreach($lapangan2 as $image)
+                                        @if($image->indeks == 1)
+                                        <div class="carousel-item active">
+                                          @else    
+                                          <div class="carousel-item">
+                                            @endif    
+                                            <img class="d-block w-100" style="height: 300px;"  src="{{asset('uploads/image_lapangan/'.$image->image)}}" alt="First slide">
+                                          </div>
+                                          <br>
+                                          @endforeach
+                                        </div>
+                                        <a class="carousel-control-prev" href="#carouselExampleControls2" role="button" data-slide="prev">
+                                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                          <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselExampleControls2" role="button" data-slide="next">
+                                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                          <span class="sr-only">Next</span>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-lg-2"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
                        
                     </div>
                 </section>

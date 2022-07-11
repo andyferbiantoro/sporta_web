@@ -59,10 +59,18 @@ Menunggu Pembayaran
                                             <td>{{$data->jenis_pembayaran}}</td>
                                         </tr>  
 
+                                        @if($data->nominal_dp != null)
+                                         <tr>
+                                            <th>Nominal DP</th>
+                                            <th>:</th>
+                                            <td>Rp. <?=number_format($data->nominal_dp, 0, ".", ".")?>,00</td>
+                                        </tr>
+                                        @endif
+
                                         <tr>
                                             <th>Nominal Pembayaran</th>
                                             <th>:</th>
-                                            <td>{{$data->nominal_pembayaran}}</td>
+                                            <td>Rp. <?=number_format($data->nominal_pembayaran, 0, ".", ".")?>,00</td>
                                         </tr>  
 
                                         <tr>
@@ -81,7 +89,7 @@ Menunggu Pembayaran
 
                                         @if($data->metode_pembayaran == "Wallet")
                                         <tr>
-                                            <th>Bank</th>
+                                            <th>Wallet</th>
                                             <th>:</th>
                                             <td>{{$data->wallet}}</td>
                                         </tr>

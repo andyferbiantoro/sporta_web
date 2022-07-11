@@ -11,6 +11,7 @@ use App\Jadwal;
 use App\Pemesanan;
 use App\Pembayaran;
 use App\Pelanggan;
+use App\Member;
 use Auth;
 use DB;
 use File;
@@ -26,8 +27,78 @@ class AdminController extends Controller
 
     public function admin_lapangan(){
 
-        return view('admin.lapangan.index');
+        $lapangan1 = DetailLapangan::where('id_lapangan','2')->get();
+
+        $lapangan2 = DetailLapangan::where('id_lapangan','3')->get();
+
+        return view('admin.lapangan.index',compact('lapangan1','lapangan2'));
     }
+
+
+    public function admin_foto_lapangan1_add(Request $request){
+
+      $get_count = DetailLapangan::where('id_lapangan',2)->count();
+      $data_add = new DetailLapangan();
+
+      $data_add->id_lapangan = 2;
+      $data_add->indeks = $get_count+1;
+
+      if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+        $filename = $file->getClientOriginalName();
+        $path = $file->store('public/uploads/image_lapangan');
+        $file->move('uploads/image_lapangan/', $filename);
+        $data_add->image = $filename;
+      } else {
+        echo "Gagal upload gambar";
+      }
+
+
+      $data_add->save();
+      
+
+      return redirect()->back()->with('success', 'Foto Lapangan 1 Berhasil Ditambahkan');
+    }
+
+
+    public function admin_foto_lapangan2_add(Request $request){
+
+      $get_count = DetailLapangan::where('id_lapangan',3)->count();
+     $data_add = new DetailLapangan();
+
+     $data_add->id_lapangan = 3;
+     $data_add->indeks = $get_count+1;
+
+     if ($request->hasFile('image')) {
+      $file = $request->file('image');
+      $extension = $file->getClientOriginalExtension();
+      $filename = $file->getClientOriginalName();
+      $path = $file->store('public/uploads/image_lapangan');
+      $file->move('uploads/image_lapangan/', $filename);
+      $data_add->image = $filename;
+    } else {
+      echo "Gagal upload gambar";
+    }
+
+
+    $data_add->save();
+
+
+    return redirect()->back()->with('success', 'Foto Lapangan 2 Berhasil Ditambahkan');
+  }
+
+
+  public function admin_foto_lapangan_delete($id){
+
+    $data_lap = DetailLapangan::findOrFail($id);
+    File::delete('uploads/image_lapangan/'.$data_lap->image);
+    $data_lap->delete();
+
+    return redirect()->back()->with('success', 'Data Lapangan Berhasil Dihapus');
+  }
+
+
 
     public function admin_lapangan_add(Request $request){
 
@@ -73,25 +144,43 @@ class AdminController extends Controller
         //$jadwal_lap1 = Jadwal::where('id_lapangan','2')->where('tanggal',$now)->get();
         //$jadwal_lap2 = Jadwal::where('id_lapangan','3')->where('tanggal',$now)->get();
 
-        $jadwal_lap1 = DB::table('detail_jadwal')
-        ->join('jadwal', 'detail_jadwal.id_jadwal', '=', 'jadwal.id')
-        ->join('jam', 'detail_jadwal.id_jam', '=', 'jam.id')
-        ->select('jadwal.*','jam.jam')
+        $jadwal_lap1 = DB::table('jadwal')
+        ->select('jadwal.*')
         ->where('id_lapangan','2')
         ->where('tanggal',$now)
-        ->where('jadwal.status_jadwal',2)
-        ->orderBy('jam.jam','ASC')
+        ->where('jadwal.status_jadwal',3)
         ->get();
 
-        $jadwal_lap2 = DB::table('detail_jadwal')
-        ->join('jadwal', 'detail_jadwal.id_jadwal', '=', 'jadwal.id')
-        ->join('jam', 'detail_jadwal.id_jam', '=', 'jam.id')
-        ->select('jadwal.*','jam.jam')
-        ->where('id_lapangan','2')
+        foreach ($jadwal_lap1 as $key => $value) {
+          $detail_jadwal = DB::table('detail_jadwal')
+          ->join('jam', 'detail_jadwal.id_jam','jam.id')
+          ->select('detail_jadwal.id_jadwal','jam.jam')
+          ->where('id_jadwal',$value->id)
+          ->get();
+
+          $jam1 = collect($detail_jadwal)->implode('jam',' ,');
+          $value->jam1 =$jam1;
+        }
+
+
+
+        $jadwal_lap2 = DB::table('jadwal')
+        ->select('jadwal.*')
+        ->where('id_lapangan','3')
         ->where('tanggal',$now)
-        ->where('jadwal.status_jadwal',2)
-        ->orderBy('jam.jam','ASC')
+        ->where('jadwal.status_jadwal',3)
         ->get();
+
+        foreach ($jadwal_lap2 as $key => $value) {
+          $detail_jadwal = DB::table('detail_jadwal')
+          ->join('jam', 'detail_jadwal.id_jam','jam.id')
+          ->select('detail_jadwal.id_jadwal','jam.jam')
+          ->where('id_jadwal',$value->id)
+          ->get();
+
+          $jam2 = collect($detail_jadwal)->implode('jam',' ,');
+          $value->jam2 =$jam2;
+        }
 
         return view('admin.pemesanan_lapangan.index',compact('lapangan','jam','pelanggan','jadwal_lap1','jadwal_lap2'));
     }
@@ -99,6 +188,19 @@ class AdminController extends Controller
     public function admin_pesan_lapangan_add(Request $request){
 
         $id_user_jadwal = Pelanggan::where('id', $request->id_pelanggan)->first();
+        $now = Carbon::now()->format('y-m-d');
+        
+        $data = ([
+            'tanggal_pesan' => $now,
+            'catatan' => $request['catatan'],
+            'id_user_pelanggan' => $request['id_user_pelanggan'],
+            'nominal_pembayaran' => $request['nominal_pembayaran'],
+            'nominal_dp' => $request['nominal_dp'],
+            'jenis_pembayaran' => $request['jenis_pembayaran'],
+            'status' => 2,
+        ]);
+
+        $id_pemesanan = Pemesanan::create($data)->id;
 
         $data = ([
             'id_lapangan' => $request['id_lapangan'],
@@ -106,28 +208,12 @@ class AdminController extends Controller
             'nama_tim' => $request['nama_tim'],
             'durasi' => $request['durasi'],
             'id_user_jadwal' => $id_user_jadwal->id_user,
-            'id_pelanggan' =>  $request['id_pelanggan'],
+            'id_pelanggan' => $request['id_user_pelanggan'],
+            'id_pemesanan' => $id_pemesanan,
             'status_jadwal' => 1,
         ]);
 
         $lastid = Jadwal::create($data)->id;
-
-        $now = Carbon::now()->format('y-m-d');
-    
-            $data_add = new Pemesanan();
-
-            $data_add->tanggal_pesan = $now;
-            $data_add->id_jadwal = $lastid;
-            $data_add->catatan = $request->input('catatan');
-            $data_add->id_user_pelanggan = $request->input('id_user_pelanggan');
-            $data_add->nominal_pembayaran = $request->input('nominal_pembayaran');
-            $data_add->nominal_dp = $request->input('nominal_dp');
-            $data_add->jenis_pembayaran = $request->input('jenis_pembayaran');
-            $data_add->status = 'pending';
-
-
-        $data_add->save();
-
 
         for ($i=1; $i <= $request->durasi ; $i++) { 
 
@@ -138,8 +224,20 @@ class AdminController extends Controller
 
             $data_add->save();
 
-
         }
+
+        $data_add = new Pembayaran();
+
+        $data_add->metode_pembayaran = 'Bayar Ditempat';
+        $data_add->id_pemesanan = $id_pemesanan;
+        $data_add->bank = $request->input('bank');
+        $data_add->wallet = $request->input('wallet');
+        $data_add->id_jadwal = $lastid;
+        $data_add->status_pembayaran = 1;
+
+        $data_add->save();
+
+
 
        return redirect('/admin_pesan_lapangan')->with('success', 'Data Pemesanan Lapangan Berhasil Ditambahkan');
     }
@@ -155,13 +253,14 @@ class AdminController extends Controller
         ->get();
 
         foreach ($pemesanan as $key => $value) {
-            $jam = DB::table("detail_jadwal")
-            ->join('jadwal', 'detail_jadwal.id_jadwal', '=', 'jadwal.id')
-            ->join('jam', 'detail_jadwal.id_jam', '=', 'jam.id')
-            ->where('detail_jadwal.id_jadwal',$value->id_jadwal)
-            ->pluck('jam.jam');
+         $detail_jadwal = DB::table('detail_jadwal')
+         ->join('jam', 'detail_jadwal.id_jam','jam.id')
+         ->select('detail_jadwal.id_jadwal','jam.jam')
+         ->where('id_jadwal',$value->id)
+         ->get();
 
-            // $jam = collect($detail_jam)->implode(' ', ', ');
+
+             $jam = collect($detail_jadwal)->implode('jam',' ,');
             $value->jam =$jam;
         }
 
@@ -178,45 +277,74 @@ class AdminController extends Controller
       $data_update = Pemesanan::where('id', $id)->first();
 
 
-            $input = [
+      $input = [
 
-             'status' => 3,
+       'status' => 3,
 
-           ];
+     ];
 
-      $data_update->update($input);
-
-
-      $update_pembayaran = Pembayaran::where('id_pemesanan',$id)->first();
-
-            $input2 = [
-
-             'status_pembayaran' => 1,
-           
-           ];
-
-      $update_pembayaran->update($input2);
+     $data_update->update($input);
 
 
-      $update_status_jadwal = Jadwal::where('id_pemesanan',$id)->first();
+     $update_pembayaran = Pembayaran::where('id_pemesanan',$id)->first();
 
-            $input3 = [
+     $input2 = [
 
-             'status_jadwal' => 3,
-           
-           ];
+       'status_pembayaran' => 1,
 
-      $update_status_jadwal->update($input3);
+     ];
 
+     $update_pembayaran->update($input2);
+
+
+     $update_status_jadwal = Jadwal::where('id_pemesanan',$id)->first();
+
+     $input3 = [
+
+       'status_jadwal' => 3,
+
+     ];
+
+     $update_status_jadwal->update($input3);
+
+     $confirm = Pemesanan::where('id', $id)->first();
+     $this->received($confirm);
 
      return redirect()->back()->with('success', 'Pemesanan Berhasil Diverifikasi');
+   }
+
+
+    public function received($confirm)
+    {
+        
+        $confirm= DB::table('pemesanan')
+        ->join('users', 'pemesanan.id_user_pelanggan', '=', 'users.id')
+        ->select('pemesanan.*','users.email')
+        ->where('pemesanan.id', $confirm->id)
+        ->orderBy('pemesanan.id','DESC')
+        ->first();
+
+        
+
+        $this->_sendEmail($confirm);
+
+    }
+
+    public function _sendEmail($confirm)
+    {
+        $message = new \App\Mail\KonfirmasiMail($confirm);
+        \Mail::to($confirm->email)->send($message);
     }
 
 
 
 
-   public function admin_laporan(){
+   public function admin_laporan(Request $request){
 
+    $from = $request->from;
+    $to = $request->to;
+
+    if ($from == null && $to == null) {
       $laporan = DB::table('jadwal')
       ->join('pelanggan','jadwal.id_pelanggan','=','pelanggan.id')
       ->select('jadwal.*','pelanggan.nama_pelanggan')
@@ -224,8 +352,40 @@ class AdminController extends Controller
       ->where('jadwal.status_jadwal', 3)
       ->get();
 
+      foreach ($laporan as $key => $value) {
+        $detail_jadwal = DB::table('detail_jadwal')
+        ->join('jam', 'detail_jadwal.id_jam','jam.id')
+        ->where('id_jadwal',$value->id)
+        ->select('jam.jam')
+        ->get();
 
-        return view('admin.laporan.index',compact('laporan'));
+        $jam = collect($detail_jadwal)->implode('jam', ', ');
+        $value->jam =$jam;
+      }
+    }else{
+      $laporan = DB::table('jadwal')
+      ->join('pelanggan','jadwal.id_pelanggan','=','pelanggan.id')
+      ->select('jadwal.*','pelanggan.nama_pelanggan')
+      ->orderBy('jadwal.id','DESC')
+      ->where('jadwal.status_jadwal', 3)
+      ->whereBetween('jadwal.tanggal', [$from, $to])
+      ->get();
+
+      foreach ($laporan as $key => $value) {
+        $detail_jadwal = DB::table('detail_jadwal')
+        ->join('jam', 'detail_jadwal.id_jam','jam.id')
+        ->where('id_jadwal',$value->id)
+        ->select('jam.jam')
+        ->get();
+
+        $jam = collect($detail_jadwal)->implode('jam', ', ');
+        $value->jam =$jam;
+      }
+    }
+
+
+
+        return view('admin.laporan.index',compact('laporan','from','to'));
     }
 
 
@@ -247,7 +407,7 @@ class AdminController extends Controller
       ->where('jadwal.id',$id)
       ->get();
 
-
+      
       //return $detail_laporan;
 
         return view('admin.laporan.detail_laporan',compact('detail_laporan','detail_pembayaran'));
@@ -256,12 +416,85 @@ class AdminController extends Controller
 
     public function admin_data_pelanggan(){
 
-        return view('admin.pelanggan.index');
+        $pelanggan = DB::table('pelanggan')
+        ->join('users', 'pelanggan.id_user','users.id')
+        ->select('pelanggan.*','users.email')
+        ->get();
+
+
+        return view('admin.pelanggan.index',compact('pelanggan'));
+    }
+
+
+    public function admin_detail_pelanggan($id){
+
+       $detail_pelanggan = DB::table('pelanggan')
+        ->join('users', 'pelanggan.id_user','users.id')
+        ->select('pelanggan.*','users.email')
+        ->where('pelanggan.id',$id)
+        ->get();
+
+        $riwayat_transaksi = DB::table('jadwal')
+        ->join('pemesanan', 'jadwal.id_pemesanan', '=', 'pemesanan.id')
+        ->join('lapangan', 'jadwal.id_lapangan', '=', 'lapangan.id')
+        ->select('jadwal.*','lapangan.nama_lapangan','pemesanan.status')
+        ->where('jadwal.id_pelanggan', $id)
+        ->where('pemesanan.status', 3)
+        ->get();
+
+        foreach ($riwayat_transaksi as $key => $value) {
+          $detail_jadwal = DB::table('detail_jadwal')
+          ->join('jam', 'detail_jadwal.id_jam','jam.id')
+          ->where('id_jadwal',$value->id)
+          ->select('jam.jam')
+          ->get();
+
+          $jam = collect($detail_jadwal)->implode('jam', ', ');
+          $value->jam =$jam;
+        }
+
+
+     // return $riwayat_transaksi;
+
+        return view('admin.pelanggan.detail_pelanggan',compact('detail_pelanggan','riwayat_transaksi'));
     }
 
 
     public function admin_data_member(){
 
-        return view('admin.member.index');
+      $member = Member::orderBy('id','DESC')->get();
+
+
+        return view('admin.member.index',compact('member'));
+    }
+
+
+     public function admin_data_member_add(Request $request){
+
+
+       
+          $data_add = new Member();
+
+          $data_add->nama_tim = $request->input('nama_tim');
+          $data_add->ketua_tim = $request->input('ketua_tim');
+          $data_add->no_hp = $request->input('no_hp');
+
+
+           if ($request->hasFile('logo_tim')) {
+              $file = $request->file('logo_tim');
+              $extension = $file->getClientOriginalExtension();
+              $filename = $file->getClientOriginalName();
+              $path = $file->store('public/uploads/logo_tim');
+              $file->move('uploads/logo_tim/', $filename);
+              $data_add->logo_tim = $filename;
+          } else {
+              echo "Gagal upload gambar";
+          }
+
+
+          $data_add->save();
+     
+
+       return redirect('/admin_data_member')->with('success', 'Data Member Berhasil Ditambahkan');
     }
 }

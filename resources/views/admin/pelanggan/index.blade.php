@@ -22,11 +22,40 @@ Data Pelanggan
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="card">
                                 <div class="card-body text-left">
-                                
+                                  <h1>Pelanggan</h1>
 
                                     
                                     <div class="text-center">
-                                       Pelanggan
+                                        <div class="table-responsive">
+                                            <table id="dataTable"  class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Nama Pelanggan</th>
+                                                        <th>Email</th>
+                                                        <th>No Handphone</th>
+                                                        <th>Aksi</th>
+                                                  
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    @php $no=1 @endphp
+                                                    @foreach($pelanggan as $data)
+                                                    <tr>
+                                                        <td>{{$no++}}</td>
+                                                        <td>{{$data->nama_pelanggan}}</td>
+                                                        <td>{{$data->email}}</td>
+                                                        <td>{{$data->no_hp}}</td>
+                                                        <td> 
+                                                          <a href="{{ route('admin_detail_pelanggan',$data->id) }}"><button class="btn btn-success ">Detail</button></a> 
+                                                        </td>
+                                                       
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
