@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Lapangan;
 use App\DetailLapangan;
 use App\DetailJadwal;
+use App\DetailJadwalMember;
 use App\Jam;
 use App\Jadwal;
+use App\JadwalMember;
 use App\Pemesanan;
 use App\Pembayaran;
 use App\Pelanggan;
@@ -463,9 +465,11 @@ class AdminController extends Controller
     public function admin_data_member(){
 
       $member = Member::orderBy('id','DESC')->get();
+      $lapangan = Lapangan::all();
+      $jam = Jam::all();
 
 
-        return view('admin.member.index',compact('member'));
+        return view('admin.member.index',compact('member','lapangan','jam'));
     }
 
 
@@ -496,5 +500,86 @@ class AdminController extends Controller
      
 
        return redirect('/admin_data_member')->with('success', 'Data Member Berhasil Ditambahkan');
+    }
+
+
+     public function admin_jadwal_member_add(Request $request){
+
+        // $id_user_jadwal = Pelanggan::where('id', $request->id_pelanggan)->first();
+        // $now = Carbon::now()->format('y-m-d');
+        
+        // $data = ([
+        //     'tanggal_pesan' => $now,
+        //     'catatan' => $request['catatan'],
+        //     'id_user_pelanggan' => $request['id_user_pelanggan'],
+        //     'nominal_pembayaran' => $request['nominal_pembayaran'],
+        //     'nominal_dp' => $request['nominal_dp'],
+        //     'jenis_pembayaran' => $request['jenis_pembayaran'],
+        //     'status' => 2,
+        // ]);
+
+        // $id_pemesanan = Pemesanan::create($data)->id;
+
+        $data = ([
+            'id_lapangan' => $request['id_lapangan'],
+            'id_member' => $request['id_member'],
+            'hari' => $request['hari'],
+            'durasi' => $request['durasi'],
+           
+        ]);
+
+        $lastid = JadwalMember::create($data)->id;
+
+        for ($i=1; $i <= $request->durasi ; $i++) { 
+
+            $data_add = new DetailJadwalMember();
+
+            $data_add->id_jam = $request->id_jam++;
+            $data_add->id_jadwal_member = $lastid;
+
+            $data_add->save();
+
+        }
+        
+        // $data_add = new Pembayaran();
+
+        // $data_add->metode_pembayaran = 'Bayar Ditempat';
+        // $data_add->id_pemesanan = $id_pemesanan;
+        // $data_add->bank = $request->input('bank');
+        // $data_add->wallet = $request->input('wallet');
+        // $data_add->id_jadwal = $lastid;
+        // $data_add->status_pembayaran = 1;
+
+        // $data_add->save();
+
+
+
+       return redirect('/admin_data_member')->with('success', 'Data Jadwal Member Berhasil Ditambahkan');
+    }
+
+
+    public function admin_lihat_jadwal_member($id){
+
+      $detail_jadwal_member = DB::table('jadwal_member')
+      ->join('member','jadwal_member.id_member','=','member.id')
+      ->join('lapangan','jadwal_member.id_lapangan','=','lapangan.id')
+      ->select('jadwal_member.*','member.nama_tim','member.ketua_tim','member.logo_tim','member.no_hp','lapangan.nama_lapangan')
+      ->where('member.id',$id)
+      ->orderBy('jadwal_member.id','DESC')
+      ->get();
+
+     foreach ($detail_jadwal_member as $key => $value) {
+          $detail_jadwal = DB::table('detail_jadwal_member')
+          ->join('jam', 'detail_jadwal_member.id_jam','jam.id')
+          ->where('id_jadwal_member',$value->id)
+          ->select('jam.jam')
+          ->get();
+
+          $jam = collect($detail_jadwal)->implode('jam', ', ');
+          $value->jam =$jam;
+        }
+
+
+      return view('admin.member.lihat_jadwal_member',compact('detail_jadwal_member'));
     }
 }

@@ -56,6 +56,9 @@ Route::group(['middleware' => ['auth', 'admin']],function(){
     Route::get('/admin_data_member', 'AdminController@admin_data_member')->name('admin_data_member');
     Route::post('/admin_data_member_add', 'AdminController@admin_data_member_add')->name('admin_data_member_add');
 
+    Route::post('/admin_jadwal_member_add', 'AdminController@admin_jadwal_member_add')->name('admin_jadwal_member_add');
+    Route::get('/admin_lihat_jadwal_member{id}', 'AdminController@admin_lihat_jadwal_member')->name('admin_lihat_jadwal_member');
+
 
 
 }); 

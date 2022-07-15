@@ -129,6 +129,18 @@ Data Transaksi Berjalan
     </div>
 </div>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      </div>
+      <div class="modal-body text-center">
+          <img src="" id="img01" style="width: 450px; height: auto;" >
+      </div>
+  </div>
+</div>
+</div>
 
 
 @endsection

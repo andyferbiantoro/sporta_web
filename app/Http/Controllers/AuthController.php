@@ -23,9 +23,9 @@ class AuthController extends Controller
         if(auth()->attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $ingat)){
             //auth->user() untuk memanggil data user yang sudah login
         if(auth()->user()->role == "admin"){
-            return redirect()->route('admin')->with('success', 'Anda Berhasil Login');
+            return redirect()->route('admin_lapangan')->with('success', 'Anda Berhasil Login');
         }else if(auth()->user()->role == "pelanggan"){
-            return redirect()->route('pelanggan')->with('success', 'Anda Berhasil Login');
+            return redirect()->route('pelanggan_lapangan')->with('success', 'Anda Berhasil Login');
         }
     }else{
        

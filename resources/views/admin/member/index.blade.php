@@ -33,9 +33,13 @@ Data Member
                               </div>
                               @endif
                                 <div class="card-body text-left">
-                                <button type="button" class="btn btn-success " data-toggle="modal" data-target="#ModalAdd">
-                                      Tambah Member
-                                    </button>
+                                  <button type="button" class="btn btn-success " data-toggle="modal" data-target="#ModalAdd">
+                                    Tambah Member
+                                  </button>
+
+                                  <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#JadwalMemberAdd">
+                                    Tambah Jadwal Member
+                                  </button><br><br>
 
                                     
                                     <div class="text-center">
@@ -49,6 +53,8 @@ Data Member
                                                         <th>No Handphone</th>
                                                         <th>Tanggal Bergabung</th>
                                                         <th>Logo Tim</th>
+                                                        <th>Aksi</th>
+
                                                   
                                                     </tr>
                                                 </thead>
@@ -64,6 +70,9 @@ Data Member
                                                         <td>{{date("j F Y", strtotime($data->created_at))}}</td>
                                                         <td>
                                                           <img style="border-radius: 0%" height="70" id="ImageTampil" src="{{asset('uploads/logo_tim/'.$data->logo_tim)}}"  data-toggle="modal" data-target="#myModal"></img>
+                                                        </td>
+                                                        <td>
+                                                          <a href="{{ route('admin_lihat_jadwal_member',$data->id) }}"><button class="btn btn-success ">Detail</button></a> 
                                                         </td>
                                               
                                                        
@@ -136,6 +145,102 @@ Data Member
           </div>
         </div>
       </div>
+
+
+
+
+
+
+<!-- Modal Tambah  -->
+<div class="modal fade" id="JadwalMemberAdd" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pesan Lapangan</h5>
+
+    </div>
+    <div class="modal-body">
+        <form method="post" action="{{route('admin_jadwal_member_add')}}" enctype="multipart/form-data">
+
+
+        {{csrf_field()}}
+
+        <div class="form-group">
+            <label>Member</label>
+            <select type="text" class="form-control" id="id_member" name="id_member" required="">
+                <option selected disabled> -- Pilih Member -- </option>
+                @foreach($member as $data)
+                <option value="{{$data->id}}">{{$data->ketua_tim}}</option>
+                @endforeach
+            </select><br>
+        </div>
+
+        <div class="form-group">
+            <label>Lapangan</label>
+            <select type="text" class="form-control" id="id_lapangan" name="id_lapangan" required="">
+                <option selected disabled> -- Pilih Lapangan -- </option>
+                @foreach($lapangan as $data)
+                <option value="{{$data->id}}">{{$data->nama_lapangan}}</option>
+                @endforeach
+            </select><br>
+        </div>
+
+       <div class="form-group">
+            <label>Hari</label>
+            <select type="text" class="form-control" id="hari" name="hari" required="" onclick="hariFunction()">
+                <option selected disabled> -- Pilih Hari -- </option>
+                <option value="Monday">Senin</option>
+                <option value="Tuesday">Selasa</option>
+                <option value="Wednesday">Rabu</option>
+                <option value="Thrusday">Kamis</option>
+                <option value="Friday">Jum'at</option>
+                <option value="Saturday">Sabtu</option>
+                <option value="Sunday">Minggu</option>         
+            </select><br>
+        </div>
+
+     
+
+    <div class="row">
+        <div class="col-sm-6">
+         <div class="form-group">
+            <label>Jam</label>
+            <select  type="text" class="form-control" id="id_jam" name="id_jam" required="">
+                <option selected disabled> -- Pilih Jam -- </option>
+                @foreach($jam as $data)
+                <option value="{{$data->id}}">{{date("H:i ", strtotime($data->jam))}} WIB</option>
+                @endforeach
+            </select><br>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label>Durasi</label>
+            <select type="text" class="form-control" id="durasi" name="durasi" required="" onclick="DurasiFunction()">
+                <option selected disabled> -- Pilih Durasi -- </option>
+                <option value="1">1 Jam</option>
+                <option value="2">2 Jam</option>
+                <option value="3">3 Jam</option>
+                <option value="4">4 Jam</option>       
+            </select><br>
+        </div>
+    </div>
+</div>
+
+
+<button class="btn btn-primary" type="Submit">Tambahkan</button>
+</form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+
+</div>
+</div>
+</div>
+</div>
+
+
 
 
 

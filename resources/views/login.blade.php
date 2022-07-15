@@ -19,10 +19,18 @@
 
     <!-- Custom styles for this template-->
     <link href="sb_assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <style type="text/css">
+        .bg_login {
+            background-image: url("img/register_bg.jpg");
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        </style>
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg_login">
 
     <div class="container">
 
@@ -35,7 +43,7 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6 d-none d-lg-block"><img src="img/sporta_logo.jpg" style="height: 450px; width: auto"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
@@ -71,7 +79,7 @@
                                 </form>
                                    
                                     <div class="text-center">
-                                        <a class="small" href="{{route('register')}}">Create an Account!</a>
+                                        <a class="small" href="{{route('register')}}">Register akun baru</a>
                                     </div>
                                 </div>
                             </div>

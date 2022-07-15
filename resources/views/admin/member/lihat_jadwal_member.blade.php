@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-Detail Pelanggan
+Detail Jadwal Member
 @endsection
 
 
@@ -22,25 +22,25 @@ Detail Pelanggan
                         <div class="col-lg-8 col-md-12 col-sm-12">
                             <div class="card">
                                 <div class="card-body text-left">
-                                  <h1>Detail Pelanggan</h1>
+                                  <h1>Detail Jadwal Member</h1>
 
                                     
                                     <div class="text-left">
-                                        @foreach($detail_pelanggan as $data)
+                                        @foreach($detail_jadwal_member as $data)
                                         <div class="table-responsive">
-                                            <h3>Informasi Pribadi</h3><br>
+                                            <br>
                                             <table id="dataTable"  class="table table-hover">
                                             
                                             <tr>
-                                                <th>Nama Pelanggan</th>
+                                                <th>Nama Tim</th>
                                                 <th>:</th>
-                                                <td>{{$data->nama_pelanggan}}</td>
+                                                <td>{{$data->nama_tim}}</td>
                                             </tr>   
 
                                              <tr>
-                                                <th>Email</th>
+                                                <th>Ketua Tim</th>
                                                 <th>:</th>
-                                                <td>{{$data->email}}</td>
+                                                <td>{{$data->ketua_tim}}</td>
                                             </tr> 
 
                                             <tr>
@@ -61,17 +61,20 @@ Detail Pelanggan
                         <div class="col-lg-4 col-md-12 col-sm-12">
                             <div class="card">
                                 <div class="card-body text-left">
-                                  <h1>Foto Pelanggan</h1>
+                                  <h1>Logo Tim</h1>
 
                                     
-                                    <div class="text-left">
-                                        @foreach($detail_pelanggan as $data)
+                                    <div class="text-center">
+                                        @foreach($detail_jadwal_member as $data)
                                         <div class="table-responsive">
                                            
-                                            <table id="dataTable"  class="table table-hover">
+                                            <table   class="table table-hover">
                                             
                                             <tr>
-                                               <td></td>
+                                                <td>
+                                                    <br><br>
+                                                    <img style="border-radius: 0%" height="110" id="ImageTampil" src="{{asset('uploads/logo_tim/'.$data->logo_tim)}}"  data-toggle="modal" data-target="#myModal"></img>
+                                                </td>
                                             </tr>   
 
                                            
@@ -91,27 +94,46 @@ Detail Pelanggan
                                     <div class="text-left">
                                         
                                         <div class="table-responsive">
-                                            <h3>Riwayat Transaksi</h3>
-                                            <table id="dataTable2"  class="table table-hover">
+                                            <h3>Jadwal Member</h3>
+                                            <table id="dataTable2" class="table table-hover">
                                             
                                              <thead>
                                                     <tr>
                                                         <th>No</th>
-                                                        <th>Tanggal</th>
-                                                        <th>Nama Tim</th>
-                                                        <th>Jam</th>
+                                                        <th>Nama Lapangan</th>
+                                                        <th>hari</th>
+                                                        <th>Durasi</th>
+                                                        <th>jam</th>
                                                   
                                                     </tr>
                                                 </thead>
 
                                                 <tbody>
                                                     @php $no=1 @endphp
-                                                    @foreach($riwayat_transaksi as $data)
+                                                    @foreach($detail_jadwal_member as $data)
                                                     <tr>
                                                         <td>{{$no++}}</td>
-                                                        <td>{{date("j F Y", strtotime($data->tanggal))}}</td>
-                                                        <td>{{$data->nama_tim}}</td>
+                                                        <td>{{$data->nama_lapangan}}</td>
+
+                                                        @if($data->hari == 'Monday')    
+                                                        <td>Senin</td>
+                                                        @elseif($data->hari == 'Tuesday')
+                                                        <td>Selasa</td>
+                                                        @elseif($data->hari == 'Wednesday')
+                                                        <td>Rabu</td>
+                                                        @elseif($data->hari == 'Thrusday')
+                                                        <td>Kamis</td>
+                                                        @elseif($data->hari == 'Friday')
+                                                        <td>Jum'at</td>
+                                                        @elseif($data->hari == 'Saturday')
+                                                        <td>Sabtu</td>
+                                                        @elseif($data->hari == 'Sunday')
+                                                        <td>Minggu</td>
+                                                        @endif
+
+                                                        <td>{{$data->durasi}} Jam</td>
                                                         <td>{{$data->jam}}</td>
+
                                                       
                                                     </tr>
                                                     @endforeach

@@ -19,10 +19,18 @@
 
     <!-- Custom styles for this template-->
     <link href="sb_assets/css/sb-admin-2.min.css" rel="stylesheet">
+     <style type="text/css">
+        .bg_login {
+            background-image: url("img/register_bg.jpg");
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        </style>
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg_login">
 
     <div class="container">
 
@@ -30,7 +38,7 @@
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-5 d-none d-lg-block"><img src="img/sporta_logo.jpg" style="height: 450px; width: auto; padding-top: 40px; padding-left: 20px"></div>
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
@@ -76,11 +84,9 @@
 
                                 </form>
                             <hr>
+                            
                             <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="login.html">Already have an account? Login!</a>
+                                <a class="small" href="{{route('login')}}">Anda sudah punya akun? Login!</a>
                             </div>
                         </div>
                     </div>
