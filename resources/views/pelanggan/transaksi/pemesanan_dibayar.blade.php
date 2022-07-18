@@ -106,6 +106,23 @@ Menunggu Pembayaran
                                     </table>
                                 </div>
                                 </div>
+                                @if($data->metode_pembayaran != "Bayar Ditempat")
+                                <div class="col-lg-4">
+                                    <div class="table-responsivele">
+                                        <table id="dataTable" class="table table-hover">
+                                            <tr>
+                                                <th> bukti transfer</th>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                     <img style="border-radius: 0%" height="70" id="ImageTampil" src="{{asset('uploads/bukti_pembayaran/'.$data->bukti_pembayaran)}}"  data-toggle="modal" data-target="#myModal"></img>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -119,7 +136,18 @@ Menunggu Pembayaran
 </div>
 </div>
 
-
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      </div>
+      <div class="modal-body text-center">
+          <img src="" id="img01" style="width: 450px; height: auto;" >
+      </div>
+  </div>
+</div>
+</div>
 
 
 

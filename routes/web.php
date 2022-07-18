@@ -27,7 +27,7 @@ Route::post('proses-register', 'AuthController@proses_register')->name('proses-r
 //proses login
 Route::post('proses-login','AuthController@proses_login')->name('proses-login')->middleware('guest');
 
-
+//Untuk Admin
 Route::group(['middleware' => ['auth', 'admin']],function(){
     Route::get('/admin', 'AdminController@index')->name('admin');
 
@@ -59,12 +59,10 @@ Route::group(['middleware' => ['auth', 'admin']],function(){
     Route::post('/admin_jadwal_member_add', 'AdminController@admin_jadwal_member_add')->name('admin_jadwal_member_add');
     Route::get('/admin_lihat_jadwal_member{id}', 'AdminController@admin_lihat_jadwal_member')->name('admin_lihat_jadwal_member');
 
-
-
 }); 
 
 
-
+//Untuk Pelanggan
 Route::group(['middleware' => ['auth', 'pelanggan']],function(){
     Route::get('/pelanggan', 'PelangganController@index')->name('pelanggan');
 
@@ -85,9 +83,11 @@ Route::group(['middleware' => ['auth', 'pelanggan']],function(){
 
 });
 
-    Route::get('/get_booking_jam', 'PelangganController@get_booking_jam')->name('get_booking_jam');
-    Route::get('/get_id_lapangan', 'PelangganController@get_id_lapangan')->name('get_id_lapangan');
-    Route::get('/get_id_jadwal/{tanggal}', 'PelangganController@get_id_jadwal')->name('get_id_jadwal');
+
+
+Route::get('/get_booking_jam', 'PelangganController@get_booking_jam')->name('get_booking_jam');
+Route::get('/get_id_lapangan', 'PelangganController@get_id_lapangan')->name('get_id_lapangan');
+Route::get('/get_id_jadwal/{tanggal}', 'PelangganController@get_id_jadwal')->name('get_id_jadwal');
 
 
 

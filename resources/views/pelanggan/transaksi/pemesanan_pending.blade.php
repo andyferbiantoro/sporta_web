@@ -64,8 +64,15 @@ Menunggu Pembayaran
                         
                         <td>{{$data->jenis_pembayaran}}</td>
                         <td>{{$data->nominal_pembayaran}}</td>
+                        @if($data->jenis_pembayaran == "DP")
                         <td>{{$data->nominal_dp}}</td>
-                        <td>{{$data->status}}</td>
+                        @endif
+
+                        @if($data->jenis_pembayaran == "Pembayaran Penuh")
+                        <td>tidak ada DP</td>
+                        @endif
+
+                        <td>Belum Dibayar</td>
                         <td>
                           <button class="btn btn-primary tambahPembayaran">Bayar Sekarang</button>
                           <br><br>
@@ -185,7 +192,7 @@ Menunggu Pembayaran
                </div>
 
 
-               <div class="form-group form-success">
+             <!--   <div class="form-group form-success">
                 <label style="color: #009970">Bank</label>
                 <select name="bank" id="bank" class="form-control" required="" disabled="" >
                  <option selected disabled> -- Pilih Bank -- </option>
@@ -193,9 +200,57 @@ Menunggu Pembayaran
                  <option >Mandiri</option>
                </select>
                <span class="form-bar"></span>
-             </div>
+             </div> -->
 
-             <div class="form-group form-success">
+               <div class="row" id="bank" hidden="">
+                    <div class="col-sm-4">
+                       <div class="form-group">
+                        <label>Bank</label>
+                          <p><input type='radio' name='bank' value='BRI' /> <img style="border-radius: 0%" height="30" src="{{asset('uploads/image_bank/bri_logo.png')}}"></img></p>
+                          <p>01312040148091</p>
+                        </div>
+                    </div>
+                     <div class="col-sm-4">
+                       <div class="form-group">
+                         <label></label>
+                          <p><input type='radio' name='bank' value='Mandiri' /><img style="border-radius: 0%" height="30" src="{{asset('uploads/image_bank/mandiri_logo.png')}}"></img></p>
+                        </div>
+                    </div>
+                     <div class="col-sm-4">
+                       <div class="form-group">
+                         <label></label>
+                          <p><input type='radio' name='bank' value='BNI' /><img style="border-radius: 0%" height="30" src="{{asset('uploads/image_bank/bni_logo.png')}}"></img></p>
+                        </div>
+                    </div>
+                   
+                </div>
+
+
+                <div class="row" id="wallet" hidden="">
+                    <div class="col-sm-4">
+                       <div class="form-group">
+                        <label>Bank</label>
+                          <p><input type='radio' name='wallet' value='OVO' /> <img style="border-radius: 0%" height="30" src="{{asset('uploads/image_wallet/ovo_logo.png')}}"></img></p>
+                        </div>
+                    </div>
+                     <div class="col-sm-4">
+                       <div class="form-group">
+                         <label></label>
+                          <p><input type='radio' name='wallet' value='DANA' /><img style="border-radius: 0%" height="30" src="{{asset('uploads/image_wallet/dana_logo.png')}}"></img></p>
+                        </div>
+                    </div>
+                     <div class="col-sm-4">
+                       <div class="form-group">
+                         <label></label>
+                          <p><input type='radio' name='wallet' value='LINK AJA' /><img style="border-radius: 0%" height="30" src="{{asset('uploads/image_wallet/link_aja_logo.png')}}"></img></p>
+                        </div>
+                    </div>
+                   
+                </div>
+
+
+
+            <!--  <div class="form-group form-success">
               <label style="color: #009970">Wallet</label>
               <select name="wallet" id="wallet" class="form-control" required="" disabled="" >
                <option selected disabled> -- Pilih Wallet -- </option>
@@ -203,7 +258,7 @@ Menunggu Pembayaran
                <option >Gopay</option>
              </select>
              <span class="form-bar"></span>
-           </div>
+           </div> -->
 
            <div class="form-group form-success">
             <label style="color: #009970">Bukti Pembayaran</label>
@@ -213,7 +268,7 @@ Menunggu Pembayaran
 
 
           <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Batal</button>
-          <button type="submit" name="" class="btn btn-info float-right mr-2"  onclick="pembayaranForm()">Submit</button>
+          <button type="submit" name="" class="btn btn-primary float-right mr-2"  onclick="pembayaranForm()">Submit</button>
         </div>
       </div>
     </form>
@@ -274,18 +329,18 @@ Menunggu Pembayaran
 
     if(metode_pembayaran == "Transfer"){    
      bukti_pembayaran.removeAttribute("disabled");
-     bank.removeAttribute("disabled");
-     wallet.setAttribute("disabled", "");
+     bank.removeAttribute("hidden");
+     wallet.setAttribute("hidden", "");
 
    }else if(metode_pembayaran == "Wallet"){
     bukti_pembayaran.removeAttribute("disabled");
-    wallet.removeAttribute("disabled");
-    bank.setAttribute("disabled", "");
+    wallet.removeAttribute("hidden");
+    bank.setAttribute("hidden", "");
 
   }else if(metode_pembayaran == "Bayar Ditempat"){
     bukti_pembayaran.setAttribute("disabled", "");
-    bank.setAttribute("disabled", "");
-    wallet.setAttribute("disabled", "");
+    bank.setAttribute("hidden", "");
+    wallet.setAttribute("hidden", "");
   }
 }
 </script>

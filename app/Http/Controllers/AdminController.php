@@ -160,7 +160,7 @@ class AdminController extends Controller
           ->where('id_jadwal',$value->id)
           ->get();
 
-          $jam1 = collect($detail_jadwal)->implode('jam',' ,');
+         $jam1 = collect($detail_jadwal)->implode('jam',' WIB, ');
           $value->jam1 =$jam1;
         }
 
@@ -180,7 +180,7 @@ class AdminController extends Controller
           ->where('id_jadwal',$value->id)
           ->get();
 
-          $jam2 = collect($detail_jadwal)->implode('jam',' ,');
+         $jam2 = collect($detail_jadwal)->implode('jam',' WIB, ');
           $value->jam2 =$jam2;
         }
 
@@ -262,7 +262,7 @@ class AdminController extends Controller
          ->get();
 
 
-             $jam = collect($detail_jadwal)->implode('jam',' ,');
+            $jam = collect($detail_jadwal)->implode('jam',' WIB, ');
             $value->jam =$jam;
         }
 
@@ -361,7 +361,7 @@ class AdminController extends Controller
         ->select('jam.jam')
         ->get();
 
-        $jam = collect($detail_jadwal)->implode('jam', ', ');
+        $jam = collect($detail_jadwal)->implode('jam',' WIB, ');
         $value->jam =$jam;
       }
     }else{
@@ -380,7 +380,7 @@ class AdminController extends Controller
         ->select('jam.jam')
         ->get();
 
-        $jam = collect($detail_jadwal)->implode('jam', ', ');
+        $jam = collect($detail_jadwal)->implode('jam',' WIB, ');
         $value->jam =$jam;
       }
     }
@@ -451,7 +451,7 @@ class AdminController extends Controller
           ->select('jam.jam')
           ->get();
 
-          $jam = collect($detail_jadwal)->implode('jam', ', ');
+          $jam = collect($detail_jadwal)->implode('jam',' WIB, ');
           $value->jam =$jam;
         }
 
@@ -575,7 +575,7 @@ class AdminController extends Controller
           ->select('jam.jam')
           ->get();
 
-          $jam = collect($detail_jadwal)->implode('jam', ', ');
+         $jam = collect($detail_jadwal)->implode('jam',' WIB, ');
           $value->jam =$jam;
         }
 

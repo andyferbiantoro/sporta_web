@@ -66,7 +66,7 @@ class PelangganController extends Controller
           ->where('id_jadwal',$value->id)
           ->get();
 
-          $jam1 = collect($detail_jadwal)->implode('jam',' ,');
+          $jam1 = collect($detail_jadwal)->implode('jam',' WIB, ');
           $value->jam1 =$jam1;
         }
 
@@ -335,17 +335,17 @@ class PelangganController extends Controller
        // return $riwayat;
 
         foreach ($riwayat as $key => $value) {
-            $jam = DB::table("detail_jadwal")
-            ->join('jadwal', 'detail_jadwal.id_jadwal', '=', 'jadwal.id')
-            ->join('jam', 'detail_jadwal.id_jam', '=', 'jam.id')
-            ->where('detail_jadwal.id_jadwal',$value->id_jadwal)
-            ->pluck('jam.jam');
+        $detail_jadwal = DB::table('detail_jadwal')
+          ->join('jam', 'detail_jadwal.id_jam','jam.id')
+          ->where('id_jadwal',$value->id_jadwal)
+          ->select('jam.jam')
+          ->get();
 
-            // $jam = collect($detail_jam)->implode(' ', ', ');
-            $value->jam =$jam;
-        }
+         $jam = collect($detail_jadwal)->implode('jam',' WIB, ');
+          $value->jam =$jam;
+       }
 
-
+       //return $riwayat;
         return view('pelanggan.transaksi.riwayat_transaksi',compact('riwayat'));
     }
 }

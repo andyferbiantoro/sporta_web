@@ -80,7 +80,7 @@
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-user btn-block">Register</button>
 
-                                    <hr>
+                                   
 
                                 </form>
                             <hr>

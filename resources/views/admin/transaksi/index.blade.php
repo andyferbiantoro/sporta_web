@@ -78,7 +78,7 @@ Data Transaksi Berjalan
                                                     @endif
                                                     <td> 
                                                         @if($data->status == '2')
-                                                        <a href="#" data-toggle="modal" onclick="VerifikasiData({{$data->id}})" data-target="#VerifikasiModal"> <button class=" btn-danger btn-sm " title="Verifikasi">Verifikasi</button></a>
+                                                        <a href="#" data-toggle="modal" onclick="VerifikasiData({{$data->id}})" data-target="#VerifikasiModal"> <button class=" btn-warning btn-sm " title="Verifikasi">Verifikasi</button></a>
                                                         @endif
                                                         @if($data->status == '3')
                                                         <button class=" btn-success btn-sm ">Sudah Diverifikasi</button>
@@ -122,7 +122,7 @@ Data Transaksi Berjalan
                     {{ method_field('POST') }}
                     <p>Verifikasi Pemesanan ini ?</p>
                     <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Batal</button>
-                    <button type="submit" name="" class="btn btn-danger float-right mr-2" data-dismiss="modal" onclick="formSubmit()">Verifikasi</button>
+                    <button type="submit" name="" class="btn btn-warning float-right mr-2" data-dismiss="modal" onclick="formSubmit()">Verifikasi</button>
                 </div>
             </div>
         </form>

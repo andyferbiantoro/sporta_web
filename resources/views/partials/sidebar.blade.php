@@ -26,12 +26,12 @@
                 </li>
                 <li class="{{(request()->is('admin_transaksi_berjalan')) ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('admin_transaksi_berjalan')}}"><i data-feather="check-square"></i><span class="menu-title text-truncate" data-i18n="Calendar">Transaksi Berjalan</span></a>
                 </li>
-                <li class="{{(request()->is('admin_laporan')) ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('admin_laporan')}}"><i data-feather="clipboard"></i><span class="menu-title text-truncate" data-i18n="file">Laporan</span></a>
+                <!-- <li class="{{(request()->is('admin_laporan')) ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('admin_laporan')}}"><i data-feather="clipboard"></i><span class="menu-title text-truncate" data-i18n="file">Laporan</span></a>
                 </li>
                 <li class="{{(request()->is('admin_data_pelanggan')) ? 'active' : ''}} {{(request()->is('admin_detail_pelanggan')) ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('admin_data_pelanggan')}}"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="file">Data Pelanggan</span></a>
                 </li>
                 <li class="{{(request()->is('admin_data_member')) ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('admin_data_member')}}"><i data-feather="user-check"></i><span class="menu-title text-truncate" data-i18n="file">Data Member</span></a>
-                </li>
+                </li> -->
             @endif   
 
             @if(Auth::user()->role == "pelanggan")
