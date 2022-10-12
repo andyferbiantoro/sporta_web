@@ -210,7 +210,7 @@ Data Pemesanan Lapangan
 
           <div class="form-group">
               <label for="nominal_dp">Nominal DP (Minimal 30K)</label>
-              <input type="number" class="form-control" id="nominal_dp" min="30000" name="nominal_dp" required=""  ></input>
+              <input type="number" class="form-control uang" id="nominal_dp" name="nominal_dp" required=""  ></input>
           </div>
 
           <div class="form-group">
@@ -237,7 +237,12 @@ Data Pemesanan Lapangan
 
 @section('js')
 
-
+<script type="text/javascript">
+    $(document).ready(function(){
+        // Format mata uang.
+        $( '.uang' ).mask('0.000.000.000', {reverse: true});
+    })
+</script>
 
 <script type="text/javascript">
     

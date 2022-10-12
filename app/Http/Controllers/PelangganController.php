@@ -310,7 +310,7 @@ if ($filter_tanggal == null) {
             'catatan' => $request['catatan'],
             'id_user_pelanggan' => $request['id_user_pelanggan'],
             'nominal_pembayaran' => $request['nominal_pembayaran'],
-            'nominal_dp' => $request['nominal_dp'],
+            'nominal_dp' => str_replace('.','',$request->nominal_dp),
             'jenis_pembayaran' => $request['jenis_pembayaran'],
             'status' => 1,
         ]);

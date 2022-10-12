@@ -104,6 +104,9 @@
 
         <script src="app-assets/js/scripts/tables/table-datatables-basic.js"></script>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.rawgit.com/igorescobar/jQuery-Mask-Plugin/1ef022ab/dist/jquery.mask.min.js"></script>
+
         
 
         <script>
