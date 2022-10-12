@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 04, 2022 at 06:34 AM
+-- Generation Time: Oct 13, 2022 at 01:53 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -68,7 +68,9 @@ INSERT INTO `detail_jadwal` (`id`, `id_jam`, `id_jadwal`, `created_at`, `updated
 (58, 6, 54, '2022-07-18 08:34:33', '2022-07-18 08:34:33'),
 (59, 14, 55, '2022-07-18 08:48:17', '2022-07-18 08:48:17'),
 (60, 10, 56, '2022-07-25 03:44:53', '2022-07-25 03:44:53'),
-(61, 11, 56, '2022-07-25 03:44:53', '2022-07-25 03:44:53');
+(61, 11, 56, '2022-07-25 03:44:53', '2022-07-25 03:44:53'),
+(62, 1, 57, '2022-10-12 23:50:45', '2022-10-12 23:50:45'),
+(63, 2, 57, '2022-10-12 23:50:45', '2022-10-12 23:50:45');
 
 -- --------------------------------------------------------
 
@@ -158,7 +160,8 @@ INSERT INTO `jadwal` (`id`, `id_lapangan`, `tanggal`, `durasi`, `nama_tim`, `id_
 (53, 2, '2022-07-18', 2, 'Garuda', 15, 49, 3, '2022-07-18 04:37:23', '2022-07-18 04:41:34'),
 (54, 3, '2022-07-18', 2, 'uytutu', 15, 50, 3, '2022-07-18 08:34:33', '2022-07-18 08:37:42'),
 (55, 3, '2022-07-19', 1, 'teamlo', 15, 51, 1, '2022-07-18 08:48:16', '2022-07-18 08:48:16'),
-(56, 2, '2022-07-25', 2, 'uytutu', 15, 52, 3, '2022-07-25 03:44:53', '2022-07-25 03:45:47');
+(56, 2, '2022-07-25', 2, 'uytutu', 15, 52, 3, '2022-07-25 03:44:53', '2022-07-25 03:45:47'),
+(57, 2, '2022-10-13', 2, 'uytutu', 15, 53, 1, '2022-10-12 23:50:45', '2022-10-12 23:50:45');
 
 -- --------------------------------------------------------
 
@@ -348,6 +351,7 @@ INSERT INTO `pembayaran` (`id`, `metode_pembayaran`, `bukti_pembayaran`, `status
 CREATE TABLE `pemesanan` (
   `id` int(11) NOT NULL,
   `tanggal_pesan` date NOT NULL,
+  `tenggat_bayar` date DEFAULT NULL,
   `catatan` text DEFAULT NULL,
   `jenis_pembayaran` varchar(50) NOT NULL,
   `nominal_pembayaran` int(11) NOT NULL,
@@ -362,11 +366,12 @@ CREATE TABLE `pemesanan` (
 -- Dumping data for table `pemesanan`
 --
 
-INSERT INTO `pemesanan` (`id`, `tanggal_pesan`, `catatan`, `jenis_pembayaran`, `nominal_pembayaran`, `nominal_dp`, `id_user_pelanggan`, `status`, `created_at`, `updated_at`) VALUES
-(49, '2022-07-18', 'isi catatan', 'Pembayaran Penuh', 180000, NULL, 20, 3, '2022-07-18 04:37:23', '2022-07-18 04:41:34'),
-(50, '2022-07-18', 'n', 'DP', 180000, 30000, 20, 3, '2022-07-18 08:34:33', '2022-07-18 08:37:42'),
-(51, '2022-07-18', 's', 'DP', 110000, 20000, 20, 1, '2022-07-18 08:48:16', '2022-07-18 08:48:16'),
-(52, '2022-07-25', 'adad', 'Pembayaran Penuh', 180000, NULL, 20, 3, '2022-07-25 03:44:53', '2022-07-25 03:45:47');
+INSERT INTO `pemesanan` (`id`, `tanggal_pesan`, `tenggat_bayar`, `catatan`, `jenis_pembayaran`, `nominal_pembayaran`, `nominal_dp`, `id_user_pelanggan`, `status`, `created_at`, `updated_at`) VALUES
+(49, '2022-07-18', NULL, 'isi catatan', 'Pembayaran Penuh', 180000, NULL, 20, 3, '2022-07-18 04:37:23', '2022-07-18 04:41:34'),
+(50, '2022-07-18', NULL, 'n', 'DP', 180000, 30000, 20, 3, '2022-07-18 08:34:33', '2022-07-18 08:37:42'),
+(51, '2022-07-18', NULL, 's', 'DP', 110000, 20000, 20, 1, '2022-07-18 08:48:16', '2022-07-18 08:48:16'),
+(52, '2022-07-25', NULL, 'adad', 'Pembayaran Penuh', 180000, NULL, 20, 3, '2022-07-25 03:44:53', '2022-07-25 03:45:47'),
+(53, '2022-10-12', '2022-10-13', NULL, 'DP', 180000, 50000, 20, 1, '2022-10-12 23:50:45', '2022-10-12 23:50:45');
 
 -- --------------------------------------------------------
 
@@ -378,6 +383,7 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `email` varchar(225) NOT NULL,
   `password` varchar(225) NOT NULL,
+  `forgot_code` varchar(50) DEFAULT NULL,
   `role` varchar(50) NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
@@ -387,10 +393,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `password`, `role`, `created_at`, `updated_at`) VALUES
-(19, 'admin@gmail.com', '$2y$10$ctkV3L6qs4cMOnU6eeP1Pu7rcuJacnI361XoJyyjnn9eydsESo3Gu', 'admin', '2022-06-25 00:57:27', '2022-06-25 00:57:27'),
-(20, 'andyfebri999@gmail.com', '$2y$10$ctkV3L6qs4cMOnU6eeP1Pu7rcuJacnI361XoJyyjnn9eydsESo3Gu', 'pelanggan', '2022-06-25 01:31:55', '2022-06-25 01:31:55'),
-(21, 'andyfebri742@gmail.com', '$2y$10$0xWUz3UYrKLdCY1PGtOC3uRoxIVwULDf/23kwmzG6DlddXkLh21bi', 'pelanggan', '2022-07-20 23:04:11', '2022-07-20 23:04:11');
+INSERT INTO `users` (`id`, `email`, `password`, `forgot_code`, `role`, `created_at`, `updated_at`) VALUES
+(19, 'admin@gmail.com', '$2y$10$ctkV3L6qs4cMOnU6eeP1Pu7rcuJacnI361XoJyyjnn9eydsESo3Gu', NULL, 'admin', '2022-06-25 00:57:27', '2022-06-25 00:57:27'),
+(20, 'andyfebri999@gmail.com', '$2y$10$ctkV3L6qs4cMOnU6eeP1Pu7rcuJacnI361XoJyyjnn9eydsESo3Gu', NULL, 'pelanggan', '2022-06-25 01:31:55', '2022-06-25 01:31:55'),
+(21, 'andyfebri742@gmail.com', '$2y$10$0xWUz3UYrKLdCY1PGtOC3uRoxIVwULDf/23kwmzG6DlddXkLh21bi', NULL, 'pelanggan', '2022-07-20 23:04:11', '2022-07-20 23:04:11');
 
 --
 -- Indexes for dumped tables
@@ -500,7 +506,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `detail_jadwal`
 --
 ALTER TABLE `detail_jadwal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `detail_jadwal_member`
@@ -524,7 +530,7 @@ ALTER TABLE `harga`
 -- AUTO_INCREMENT for table `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `jadwal_member`
@@ -572,7 +578,7 @@ ALTER TABLE `pembayaran`
 -- AUTO_INCREMENT for table `pemesanan`
 --
 ALTER TABLE `pemesanan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `users`
