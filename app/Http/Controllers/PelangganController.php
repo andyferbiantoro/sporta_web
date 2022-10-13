@@ -75,7 +75,7 @@ class PelangganController extends Controller
 
 
 
-        $jadwal_lap2 = DB::table('jadwal')
+    $jadwal_lap2 = DB::table('jadwal')
         ->select('jadwal.*')
         ->where('id_lapangan','3')
         ->where('tanggal',$now)
@@ -92,6 +92,8 @@ class PelangganController extends Controller
           $jam2 = collect($detail_jadwal)->implode('jam',' ,');
           $value->jam2 =$jam2;
         }
+
+        
 
         $pengumuman = Konten::where('foto_pengumuman','!=',null)->orderBy('id','DESC')->get();
      
@@ -303,8 +305,22 @@ if ($filter_tanggal == null) {
           return redirect()->back()->with('error', 'Tanggal pemesanan anda tidak valid, silahkan ulangi pemesanan');
 
         }else{
+          if ($request->nominal_dp == null) {
+           $data = ([
+            'tanggal_pesan' => $now,
+            'tenggat_bayar' => $tenggat_bayar,
+            'catatan' => $request['catatan'],
+            'id_user_pelanggan' => $request['id_user_pelanggan'],
+            'nominal_pembayaran' => $request['nominal_pembayaran'],
+            'nominal_dp' => $request['nominal_dp'],
+            'jenis_pembayaran' => $request['jenis_pembayaran'],
+            'status' => 1,
+          ]);
 
-         $data = ([
+           $id_pemesanan = Pemesanan::create($data)->id;
+         }else{
+
+           $data = ([
             'tanggal_pesan' => $now,
             'tenggat_bayar' => $tenggat_bayar,
             'catatan' => $request['catatan'],
@@ -313,9 +329,10 @@ if ($filter_tanggal == null) {
             'nominal_dp' => str_replace('.','',$request->nominal_dp),
             'jenis_pembayaran' => $request['jenis_pembayaran'],
             'status' => 1,
-        ]);
+          ]);
 
-        $id_pemesanan = Pemesanan::create($data)->id;
+           $id_pemesanan = Pemesanan::create($data)->id;
+         }
         
 
 

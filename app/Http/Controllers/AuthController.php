@@ -200,22 +200,12 @@ public function reset_password_proses(Request $request){
     $user = User::where('forgot_code', $get_cookie)->where('role','pelanggan')->first();
 
     $input = [
-        'password' => Hash::make($request['password']),
+        'password' =>$request['password'],
 
     ];
     $user->update($input);
 
-    if(auth()->attempt(['password' => $input=['password']])){
-            //auth->user() untuk memanggil data user yang sudah login
-        
-        if(auth()->user()->role == "admin"){
-            return redirect()->route('admin')->with('success', 'Anda Berhasil Login');
-        }else if(auth()->user()->role == "pelanggan"){
-            return redirect()->route('pelanggan_dashboard')->with('success', 'Anda Berhasil Login');
-        }
-    }else {
-            return redirect()->back()->with('error', 'Email / Password anda salah'); //route itu isinya name dari route di web.php
-        }
+    return redirect()->route('login')->with('success', 'Anda Berhasil Merubah Password');
 
 
     }

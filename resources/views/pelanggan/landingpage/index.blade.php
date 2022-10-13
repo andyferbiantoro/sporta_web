@@ -267,12 +267,12 @@
 
                                     <tbody>
                                         @php $no=1 @endphp
-                                        @foreach($jadwal_lap2 as $lap1)
+                                        @foreach($jadwal_lap2 as $lap2)
                                         <tr>
                                             <td>{{$no++}}</td>
-                                            <td>{{date("j F Y", strtotime($lap1->tanggal))}}</td>
-                                            <td>{{$lap1->jam1}}</td>
-                                            <td>{{$lap1->nama_tim}}</td>
+                                            <td>{{date("j F Y", strtotime($lap2->tanggal))}}</td>
+                                            <td>{{$lap2->jam2}}</td>
+                                            <td>{{$lap2->nama_tim}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>

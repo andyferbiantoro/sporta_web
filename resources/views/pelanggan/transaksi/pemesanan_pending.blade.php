@@ -36,7 +36,7 @@ Menunggu Pembayaran
                 @endif
                 <div class="text-center">
                  <div class="table-responsive">
-                  <table id="dataTable"  class="table table-hover">
+                  <table id="dataTable2"  class="table table-hover">
                     <thead>
                       <tr>
                         <th>No</th>

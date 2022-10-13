@@ -665,10 +665,18 @@ public function admin_cancel_pemesanan($id)
         $value->jam =$jam;
       }
 
+      
       $most_tim = Jadwal::groupBy('nama_tim')->select('nama_tim', \DB::raw('count(*) as total'))->orderBy('total', 'DESC')->first();
       
+
       $get_lap = Jadwal::groupBy('id_lapangan')->select('id_lapangan', \DB::raw('count(*) as total'))->orderBy('total', 'DESC')->first();
-      $most_lap = Lapangan::where('id', $get_lap->id_lapangan)->first();
+      if ($get_lap == null) {
+      $most_lap = Lapangan::where('id', '0')->first();
+      
+      }else{
+              $most_lap = Lapangan::where('id', $get_lap->id_lapangan)->first();
+
+      }
 
 
       $get_jam = DetailJadwal::groupBy('id_jam')->select('id_jam', \DB::raw('count(*) as total'))->orderBy('total', 'DESC')->first();
